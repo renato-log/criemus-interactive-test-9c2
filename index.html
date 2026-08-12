@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Experiência Interativa — Criemus</title>
+
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 24px;
+			font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+			background: #f4f5f2;
+			color: #182126;
+		}
+
+		.criemus-experience {
+			width: 100%;
+			max-width: 680px;
+			padding: 40px;
+			background: #ffffff;
+			border: 1px solid #d8ddda;
+			border-radius: 18px;
+			box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+		}
+
+		h1 {
+			margin-top: 0;
+			font-size: 2rem;
+		}
+
+		p {
+			line-height: 1.6;
+		}
+
+		.criemus-options {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 12px;
+			margin: 28px 0;
+		}
+
+		button {
+			min-height: 52px;
+			padding: 12px 18px;
+			border: 0;
+			border-radius: 10px;
+			font: inherit;
+			font-weight: 600;
+			cursor: pointer;
+			background: #174f63;
+			color: #ffffff;
+		}
+
+		button:hover,
+		button:focus-visible {
+			opacity: 0.88;
+		}
+
+		#result {
+			min-height: 88px;
+			padding: 20px;
+			border-radius: 12px;
+			background: #eef2ef;
+			font-size: 1.05rem;
+		}
+
+		#counter {
+			margin-top: 16px;
+			font-size: 0.9rem;
+			color: #59656a;
+		}
+
+		.criemus-reset {
+			margin-top: 20px;
+			background: #e6e9e7;
+			color: #182126;
+		}
+
+		@media (max-width: 600px) {
+			.criemus-experience {
+				padding: 26px;
+			}
+
+			.criemus-options {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<main class="criemus-experience">
+		<h1>Escolha um caminho</h1>
+
+		<p>
+			Esta é uma pequena experiência interativa. Escolha uma das três
+			direções abaixo e observe como a experiência responde à sua decisão.
+		</p>
+
+		<div class="criemus-options">
+			<button type="button" data-choice="Explorar">
+				Explorar
+			</button>
+
+			<button type="button" data-choice="Criar">
+				Criar
+			</button>
+
+			<button type="button" data-choice="Compartilhar">
+				Compartilhar
+			</button>
+		</div>
+
+		<div id="result" aria-live="polite">
+			Nenhum caminho foi escolhido ainda.
+		</div>
+
+		<div id="counter">
+			Interações realizadas: <strong>0</strong>
+		</div>
+
+		<button type="button" id="reset" class="criemus-reset">
+			Reiniciar experiência
+		</button>
+	</main>
+
+	<script>
+		(() => {
+			'use strict';
+
+			const buttons = document.querySelectorAll('[data-choice]');
+			const result = document.getElementById('result');
+			const counter = document.querySelector('#counter strong');
+			const resetButton = document.getElementById('reset');
+
+			let interactionCount = 0;
+
+			const messages = {
+				Explorar:
+					'Você escolheu explorar. Às vezes, descobrir algo novo começa com uma pequena curiosidade.',
+
+				Criar:
+					'Você escolheu criar. Uma ideia se transforma quando você decide dar forma a ela.',
+
+				Compartilhar:
+					'Você escolheu compartilhar. Uma criação pode ganhar novos significados quando encontra outras pessoas.'
+			};
+
+			buttons.forEach((button) => {
+				button.addEventListener('click', () => {
+					const choice = button.dataset.choice;
+
+					interactionCount += 1;
+
+					result.textContent = messages[choice];
+					counter.textContent = String(interactionCount);
+				});
+			});
+
+			resetButton.addEventListener('click', () => {
+				interactionCount = 0;
+
+				result.textContent = 'Nenhum caminho foi escolhido ainda.';
+				counter.textContent = '0';
+			});
+		})();
+	</script>
+
+</body>
+</html>
